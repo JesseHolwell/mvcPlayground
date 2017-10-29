@@ -13,6 +13,16 @@ namespace mvcPlayground.Controllers
             return View();
         }
 
+        public ActionResult Teams()
+        {
+            return View();
+        }
+
+        public ActionResult Grid()
+        {
+            return View();
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
