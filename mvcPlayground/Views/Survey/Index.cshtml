@@ -1,0 +1,12 @@
+﻿
+@model ICollection<mvcPlayground.Models.SurveyModel>
+
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        @foreach (var Survey in Model)
+            {
+            <a type="button" class="btn btn-default" href="@Url.Action("Survey", "Survey", new { id = Survey.Id })">@Survey.Name</a>
+        }
+        <a type="button" class="btn btn-info" href="@Url.Action("Survey", "Survey", new { id = -1 } )">+</a>
+    </div>
+</div>
