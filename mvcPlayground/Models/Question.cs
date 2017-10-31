@@ -15,9 +15,9 @@ namespace mvcPlayground.Models
 
         public int Id { get; internal set; }
         public int SectionId { get; set; }
-        public string Question { get; set; }
+        public string Text { get; set; }
         public int Order { get; set; }
-        public virtual ICollection<AnswerModel> Answers { get; set; }
+        public virtual ICollection<Answer> Answers { get; set; }
         public QuestionType Type { get; set; }
 
         private int getNextOrder()

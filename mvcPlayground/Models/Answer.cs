@@ -5,16 +5,16 @@ using System.Web;
 
 namespace mvcPlayground.Models
 {
-    public class AnswerModel
+    public class Answer
     {
-        public AnswerModel()
+        public Answer()
         {
 
         }
 
         public int Id { get; internal set; }
         public int QuestionId { get; set; }
-        public string Answer { get; set; }
+        public string Text { get; set; }
         public int Order { get; set; }
         public bool Exclusive { get; set; }
 

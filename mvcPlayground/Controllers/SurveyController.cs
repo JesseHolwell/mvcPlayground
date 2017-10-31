@@ -49,7 +49,7 @@ namespace mvcPlayground.Controllers
             //    return RedirectToAction("Index");
             //}
             //PopulateAssignedCourseData(instructor);
-            //return View(instructor);
+            return View();
         }
 
         public ActionResult Survey(int id)

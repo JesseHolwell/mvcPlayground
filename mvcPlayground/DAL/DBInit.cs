@@ -15,19 +15,19 @@ namespace mvcPlayground.DAL
                 new Survey() { Name = "Test Survey" }
             };
 
-            var sections = new List<SectionModel>()
+            var sections = new List<Section>()
             {
-                new SectionModel() { Id = 1, Name = "Text" }
+                new Section() { Id = 1, Name = "Text" }
             };
 
-            var questions = new List<QuestionModel>()
+            var questions = new List<Question>()
             {
-                new QuestionModel() { Id = 1, Question = "Test question number 1", Type = QuestionType.Single }
+                new Question() { Id = 1, Text = "Test question number 1", Type = QuestionType.Single }
             };
 
-            var answers = new List<AnswerModel>
+            var answers = new List<Answer>
             {
-                new AnswerModel() { Id = 1, Answer = "Test answer", Exclusive = false }
+                new Answer() { Id = 1, Text = "Test answer", Exclusive = false }
             };
 
             sections.ForEach(s => context.Sections.Add(s));
@@ -37,6 +37,46 @@ namespace mvcPlayground.DAL
 
             context.SaveChanges();
 
+        }
+    }
+
+    public static class SurveyFactory
+    {
+        public static Survey Generate()
+        {
+            Survey model = new Survey()
+            {
+                Id = 1,
+                Name = "Test Survey",
+                Sections = new List<Section>()
+                    {
+                        new Section()
+                        {
+                            Id = 1,
+                            Name = "Text",
+                            Questions = new List<Question>()
+                            {
+                                new Question()
+                                {
+                                    Id = 1,
+                                    Text = "Test question number 1",
+                                    Type = QuestionType.Single,
+                                    Answers = new List<Answer>
+                                    {
+                                        new Answer()
+                                        {
+                                            Id = 1,
+                                            Text = "Test answer",
+                                            Exclusive = false,
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            };
+
+            return model;
         }
     }
 }

@@ -7,7 +7,7 @@ using System.Web.Mvc;
 
 namespace mvcPlayground.Controllers
 {
-    public class SurveyController : Controller
+    public class SectionController : Controller
     {
         SurveyDBContext db = new SurveyDBContext();
 
@@ -49,7 +49,7 @@ namespace mvcPlayground.Controllers
             //    return RedirectToAction("Index");
             //}
             //PopulateAssignedCourseData(instructor);
-            //return View(instructor);
+            return View();
         }
 
         public ActionResult Survey(int id)
