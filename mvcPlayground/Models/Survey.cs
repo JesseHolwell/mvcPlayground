@@ -5,74 +5,16 @@ using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace mvcPlayground.Models
 {
-    public class SurveyModel
+    public class Survey
     {
+        public Survey()
+        {
+        }
+
         public int Id { get; internal set; }
         public string Name { get; set; }
-        public virtual ICollection<SectionModel> Sections { get; set; }
-
+        public virtual ICollection<Section> Sections { get; set; }
     }
-
-    public class SectionModel
-    {
-        public int Id { get; internal set; }
-        public int SurveyId { get; set; }
-        public string Name { get; set; }
-        public int Order { get; set; }
-
-        public virtual ICollection<QuestionModel> Questions { get; set; }
-    }
-
-    public class QuestionModel
-    {
-        public int Id { get; internal set; }
-        public int SectionId { get; set; }
-        public QuestionModel()
-        {
-            this.Order = 0;
-            //getNextOrder();
-        }
-
-        public string Question { get; set; }
-        public int Order { get; set; }
-        public virtual ICollection<AnswerModel> Answers { get; set; }
-        public QuestionType Type { get; set; }
-
-        private int getNextOrder()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public class AnswerModel
-    {
-        public int Id { get; internal set; }
-        public int QuestionId { get; set; }
-        public AnswerModel()
-        {
-            this.Order = 0;
-            //getNextOrder();
-        }
-
-        public string Answer { get; set; }
-        public int Order { get; set; }
-        public bool Exclusive { get; set; }
-
-        private int getNextOrder()
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public enum QuestionType
-    {
-        Single,
-        Matrix
-
-    }
-
-
-
 
     public class SurveyDBContext : DbContext
     {
@@ -81,10 +23,10 @@ namespace mvcPlayground.Models
 
         }
 
-        public DbSet<SurveyModel> Surveys { get; set; }
-        public DbSet<SectionModel> Sections { get; set; }
-        public DbSet<QuestionModel> Questions { get; set; }
-        public DbSet<AnswerModel> Answers { get; set; }
+        public DbSet<Survey> Surveys { get; set; }
+        public DbSet<Section> Sections { get; set; }
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -96,9 +38,9 @@ namespace mvcPlayground.Models
 
     public static class SurveyFactory
     {
-        public static SurveyModel Generate()
+        public static Survey Generate()
         {
-            SurveyModel model = new SurveyModel()
+            Survey model = new Survey()
             {
                 Id = 1,
                 Name = "Test Survey",

@@ -178,6 +178,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\SectionController.cs" />
     <Compile Include="Controllers\SurveyController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -186,8 +187,11 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\Answer.cs" />
     <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\SurveyModel.cs" />
+    <Compile Include="Models\Question.cs" />
+    <Compile Include="Models\Section.cs" />
+    <Compile Include="Models\Survey.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -254,7 +258,7 @@
     <Content Include="Views\Survey\Index.cshtml" />
     <Content Include="Views\Survey\Question.cshtml" />
     <Content Include="Views\Survey\Answer.cshtml" />
-    <Content Include="Views\Survey\Section.cshtml" />
+    <Content Include="Views\Section\Index.cshtml" />
     <Content Include="Views\Survey\Survey.cshtml" />
     <Content Include="Views\Shared\Navigation.cshtml" />
   </ItemGroup>

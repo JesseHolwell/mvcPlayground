@@ -10,9 +10,9 @@ namespace mvcPlayground.DAL
     {
         protected override void Seed(SurveyDBContext context)
         {
-            var surveys = new List<SurveyModel>
+            var surveys = new List<Survey>
             {
-                new SurveyModel() { Name = "Test Survey" }
+                new Survey() { Name = "Test Survey" }
             };
 
             var sections = new List<SectionModel>()
