@@ -13,6 +13,9 @@ namespace mvcPlayground.Models
 
         public int Id { get; internal set; }
         public string Name { get; set; }
+        public string Name2 { get; set; }
+        public string Name3 { get; set; }
+
         public virtual ICollection<Section> Sections { get; set; }
     }
 
@@ -20,7 +23,6 @@ namespace mvcPlayground.Models
     {
         public SurveyDBContext() : base("DefaultConnection")
         {
-
         }
 
         public DbSet<Survey> Surveys { get; set; }

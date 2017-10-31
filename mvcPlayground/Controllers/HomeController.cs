@@ -1,4 +1,5 @@
-﻿using System;
+﻿using mvcPlayground.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +11,7 @@ namespace mvcPlayground.Controllers
     {
         public ActionResult Index()
         {
+            SurveyDBContext db = new SurveyDBContext();
             return View();
         }
 

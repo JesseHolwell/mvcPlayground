@@ -15,25 +15,25 @@ namespace mvcPlayground.DAL
                 new Survey() { Name = "Test Survey" }
             };
 
-            var sections = new List<Section>()
-            {
-                new Section() { Id = 1, Name = "Text" }
-            };
+            //var sections = new List<Section>()
+            //{
+            //    new Section() { Id = 1, Name = "Text" }
+            //};
 
-            var questions = new List<Question>()
-            {
-                new Question() { Id = 1, Text = "Test question number 1", Type = QuestionType.Single }
-            };
+            //var questions = new List<Question>()
+            //{
+            //    new Question() { Id = 1, Text = "Test question number 1", Type = QuestionType.Single }
+            //};
 
-            var answers = new List<Answer>
-            {
-                new Answer() { Id = 1, Text = "Test answer", Exclusive = false }
-            };
+            //var answers = new List<Answer>
+            //{
+            //    new Answer() { Id = 1, Text = "Test answer", Exclusive = false }
+            //};
 
-            sections.ForEach(s => context.Sections.Add(s));
-            questions.ForEach(s => context.Questions.Add(s));
             surveys.ForEach(s => context.Surveys.Add(s));
-            answers.ForEach(s => context.Answers.Add(s));
+            //sections.ForEach(s => context.Sections.Add(s));
+            //questions.ForEach(s => context.Questions.Add(s));
+            //answers.ForEach(s => context.Answers.Add(s));
 
             context.SaveChanges();
 
