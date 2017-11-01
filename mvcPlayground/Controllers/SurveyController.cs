@@ -24,6 +24,8 @@ namespace mvcPlayground.Controllers
         // GET: Survey/View/5
         public ActionResult View(int? id)
         {
+            //irrelephant
+
             Survey model;
 
             if (id != null && id > 0)
