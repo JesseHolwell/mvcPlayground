@@ -14,25 +14,19 @@ namespace mvcPlayground.Controllers
 
         public ActionResult Index()
         {
-            //model = db.Surveys.ToList();
-            List<Survey> model = new List<Survey>();
-            model.Add(SurveyFactory.Generate());
-            model.Add(SurveyFactory.Generate());
-            model.Add(SurveyFactory.Generate());
-
-            return View(model);
+            return View();
         }
 
         public ActionResult Create()
         {
-            var survey = new Survey();
+            //var section = new Section();
 
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Survey survey)
+        public ActionResult Create(Section section)
         {
             //if (selectedCourses != null)
             //{
@@ -53,9 +47,9 @@ namespace mvcPlayground.Controllers
             return View();
         }
 
-        public ActionResult Survey(int id)
+        public ActionResult Section(int id)
         {
-            Survey model = db.Surveys.FirstOrDefault(x => x.Id == id);
+            Section model = db.Sections.FirstOrDefault(x => x.Id == id);
             return View(model);
         }
     }

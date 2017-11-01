@@ -1,0 +1,64 @@
+﻿
+@{
+    ViewBag.Title = "Survey";
+}
+
+@model mvcPlayground.Models.Survey
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row">
+        <div class="col-sm-12 form-group">
+            @Html.LabelFor(model => model.Name)
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-sm-3 form-group">
+            <div class="form-group">
+                <ul class="nav nav-pills nav-stacked">
+                    @if (Model.Sections != null)
+                {
+                    foreach (var Section in Model.Sections.OrderBy(x => x.Order))
+                    {
+                            <li>
+                                <a href="#section-@Section.Id" data-toggle="tab">
+                                    @Section.Name
+                                </a>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="form-group">
+                <input type="button" class="btn btn-primary" value="+" />
+            </div>
+        </div>
+
+        <div class="col-sm-9">
+            <div class="tab-content">
+                @if (Model.Sections != null)
+                {
+                    foreach (var Section in Model.Sections.OrderBy(x => x.Name))
+                    {
+                        <div id="section-@Section.Id" class="tab-pane fade">
+                            @Html.Partial("Section", Section)
+                        </div>
+                    }
+                }
+
+                @*<a href="#">+</a>*@
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Back", "Index", "Survey", null, new { @class = "btn btn-default" })
+        </div>
+    </div>
+}

@@ -1,0 +1,21 @@
+﻿
+@{
+    ViewBag.Title = "Answers";
+}
+
+@model mvcPlayground.Models.Answer
+
+
+<h4>@ViewBag.Title</h4>
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Text)
+                @Html.TextBoxFor(model => model.Text, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Text)
+            </div>
+        </div>
+    </div>
+}

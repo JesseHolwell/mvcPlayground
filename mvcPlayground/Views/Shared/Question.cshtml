@@ -1,0 +1,26 @@
+﻿
+@{
+    ViewBag.Title = "Questions";
+}
+
+@model mvcPlayground.Models.Question
+
+
+@*<h3>@ViewBag.Title</h3>*@
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="form-group">
+                @Html.LabelFor(model => model.Text)
+                @Html.TextBoxFor(model => model.Text, new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.Text)
+            </div>
+
+            @*@foreach (var Answer in Model.Answers.OrderBy(x => x.Order))
+                {
+                    @Html.Partial("Answer", Answer)
+                }*@
+        </div>
+    </div>
+}

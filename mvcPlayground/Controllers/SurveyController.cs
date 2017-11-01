@@ -2,7 +2,9 @@
 using mvcPlayground.Models;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 
@@ -14,49 +16,58 @@ namespace mvcPlayground.Controllers
 
         public ActionResult Index()
         {
-            //model = db.Surveys.ToList();
-            List<Survey> model = new List<Survey>();
-            model.Add(SurveyFactory.Generate());
-            model.Add(SurveyFactory.Generate());
-            model.Add(SurveyFactory.Generate());
+            List<Survey> model = db.Surveys.ToList();
 
             return View(model);
         }
 
-        public ActionResult Create()
+        // GET: Survey/View/5
+        public ActionResult View(int? id)
         {
-            var survey = new Survey();
+            //if (id == null) return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
 
-            return View();
+            Survey model;
+
+            if (id != null && id > 0)
+            {
+                model = db.Surveys.Find(id);
+                if (model == null) return HttpNotFound();
+            }
+            else
+                model = new Survey();
+
+            return View(model);
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("View")]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(Survey survey)
+        public ActionResult Save(Survey survey)
         {
-            //if (selectedCourses != null)
-            //{
-            //    instructor.Courses = new List<Course>();
-            //    foreach (var course in selectedCourses)
-            //    {
-            //        var courseToAdd = db.Courses.Find(int.Parse(course));
-            //        instructor.Courses.Add(courseToAdd);
-            //    }
-            //}
-            //if (ModelState.IsValid)
-            //{
-            //    db.Instructors.Add(instructor);
-            //    db.SaveChanges();
-            //    return RedirectToAction("Index");
-            //}
-            //PopulateAssignedCourseData(instructor);
-            return View();
-        }
+            //TODO: Save logic
 
-        public ActionResult Survey(int id)
-        {
-            Survey model = db.Surveys.FirstOrDefault(x => x.Id == id);
-            return View(model);
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    if (survey.Id > 0)
+                    {
+                        var surveyToUpdate = db.Surveys.Find(survey.Id);
+                        surveyToUpdate.Name = survey.Name;
+                    }
+                    else
+                        db.Surveys.Add(survey);
+
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+            }
+            catch (RetryLimitExceededException dex)
+            {
+                ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+            }
+            return View(survey);
+
+            //return View();
         }
     }
 }

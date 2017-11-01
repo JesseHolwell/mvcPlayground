@@ -183,6 +183,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="DAL\DBInit.cs" />
+    <Compile Include="DAL\SurveyDBContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -256,11 +257,12 @@
     <Content Include="Views\Home\Teams.cshtml" />
     <Content Include="Views\Home\Grid.cshtml" />
     <Content Include="Views\Survey\Index.cshtml" />
-    <Content Include="Views\Survey\Question.cshtml" />
-    <Content Include="Views\Survey\Answer.cshtml" />
+    <Content Include="Views\Shared\Question.cshtml" />
+    <Content Include="Views\Shared\Answer.cshtml" />
     <Content Include="Views\Section\Index.cshtml" />
-    <Content Include="Views\Survey\Survey.cshtml" />
+    <Content Include="Views\Survey\View.cshtml" />
     <Content Include="Views\Shared\Navigation.cshtml" />
+    <Content Include="Views\Shared\Section.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

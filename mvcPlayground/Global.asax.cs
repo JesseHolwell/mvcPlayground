@@ -1,4 +1,5 @@
-﻿using mvcPlayground.Models;
+﻿using mvcPlayground.DAL;
+using mvcPlayground.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -15,6 +16,10 @@ namespace mvcPlayground
     {
         protected void Application_Start()
         {
+            Database.SetInitializer(new DBInit());
+            SurveyDBContext db = new SurveyDBContext();
+            db.Database.Initialize(true);
+
             AreaRegistration.RegisterAllAreas();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
