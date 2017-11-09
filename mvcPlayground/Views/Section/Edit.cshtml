@@ -1,14 +1,16 @@
 ﻿
 @{
-    ViewBag.Title = "Survey Edit";
+    ViewBag.Title = "Section Edit";
 }
 
-@model mvcPlayground.Models.Survey
+@model mvcPlayground.Models.Section
 
-@using (Html.BeginForm("Save", "Survey"))
+@using (Html.BeginForm("Save", "Section"))
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
+    @Html.TextBoxFor(model => model.Id, new { @class = "form-control" })
+    @Html.HiddenFor(model => model.SurveyId)
 
     <div class="row form-group">
         <div class="col-md-12">
@@ -19,7 +21,7 @@
     <div class="row form-group">
         <div class="col-md-12">
             <input type="submit" value="Save" class="btn btn-primary" />
-            @Html.ActionLink("Back", "View", "Survey", new { id = Model.Id }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Back", "View", "Survey", new { id = Model.SurveyId }, new { @class = "btn btn-default" })
         </div>
     </div>
 }

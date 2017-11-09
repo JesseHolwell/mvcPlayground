@@ -9,7 +9,7 @@
     <div class="col-sm-6 col-sm-offset-3 form-group">
         @foreach (var Survey in Model.OrderBy(x=>x.Name))
         {
-            <a type="button" class="btn btn-default form-control" href="@Url.Action("View", "Survey", new { id = Survey.Id })">@Survey.Name</a>
+            <a type="button" class="btn btn-info form-control" href="@Url.Action("View", "Survey", new { id = Survey.Id })">@Survey.Name</a>
         }
         <a type="button" class="btn btn-primary form-control" href="@Url.Action("View", "Survey" )">+</a>
     </div>

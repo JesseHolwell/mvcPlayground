@@ -28,30 +28,49 @@ namespace mvcPlayground.Controllers
 
             if (id != null && id > 0)
             {
+                DBHelper.NormalizeSectionOrder(id.Value, db);
                 model = db.Surveys.Find(id);
                 if (model == null) return HttpNotFound();
+
             }
             else
-                model = new Survey();
+            {
+                model = new Survey() { Name = "New Survey" };
+                db.Surveys.Add(model);
+                db.SaveChanges();
+            }
 
             return View(model);
         }
 
         // GET: Survey/Edit/5
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(int id)
         {
-            var model = db.Surveys.Find(Id);
+            var model = db.Surveys.Find(id);
             return View("Edit", model);
         }
 
+        // GET: Survey/Delete/5
+        public ActionResult Delete(int? id)
+        {
+            Survey model = db.Surveys.Find(id);
+            db.Surveys.Remove(model);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        // GET: Survey/AddSection/5
         public ActionResult AddSection(int id)
         {
             Survey model = db.Surveys.FirstOrDefault(x => x.Id == id);
-            var max = model.Sections.Max(x => x.Order) + 1;
+            var max = 0;
+            if (model.Sections != null && model.Sections.Count() > 0) max = model.Sections.Max(x => x.Order) + 1;
 
-            model.Sections.Add(new Models.Section() { Order = max });
+            model.Sections.Add(new Models.Section() { Name = "Placeholder", Order = max });
 
-            return View("View", model);
+            db.SaveChanges();
+
+            return RedirectToAction("View", new { id = id });
         }
 
         [HttpPost]
@@ -60,19 +79,18 @@ namespace mvcPlayground.Controllers
         {
             try
             {
-                TryUpdateModel(survey);
-                //if (ModelState.IsValid)
-                //{
-                //    if (survey.Id > 0)
-                //    {
-                //        var surveyToUpdate = db.Surveys.Find(survey.Id);
-                //        surveyToUpdate.Name = survey.Name;
-                //    }
-                //    else
-                //        db.Surveys.Add(survey);
+                if (ModelState.IsValid)
+                {
+                    if (survey.Id > 0)
+                    {
+                        var surveyToUpdate = db.Surveys.Find(survey.Id);
+                        surveyToUpdate.Name = survey.Name;
+                    }
+                    else
+                        db.Surveys.Add(survey);
 
-                //    db.SaveChanges();
-                //}
+                    db.SaveChanges();
+                }
                 return RedirectToAction("Index");
             }
             catch (RetryLimitExceededException dex)

@@ -15,7 +15,8 @@ namespace mvcPlayground.Controllers
 
         public ActionResult Index(int id)
         {
-            List<Section> model = db.Sections.Where(x=>x.SurveyId == id).ToList();
+            //List<Section> model = db.Sections.Where(x=>x.SurveyId == id).ToList();
+            Section model = db.Sections.FirstOrDefault(x => x.Id == id);
 
             return View(model);
         }
@@ -37,30 +38,31 @@ namespace mvcPlayground.Controllers
         }
 
         // GET: Section/Edit/5
-        public ActionResult Edit(int Id)
+        public ActionResult Edit(int id)
         {
-            var model = db.Sections.Find(Id);
+            var model = db.Sections.Find(id);
             return View("Edit", model);
         }
 
-        public void AddQuestion(int id)
+        public ActionResult AddQuestion(int id)
         {
             Section model = db.Sections.FirstOrDefault(x => x.Id == id);
-            model.Questions.Add(new Models.Question());
+            var max = 0;
+            if (model.Questions != null && model.Questions.Count() > 0) max = model.Questions.Max(x => x.Order) + 1;
 
-            //return View("View", model);
-            RedirectToAction("View", "Survey", model.SurveyId);
+            model.Questions.Add(new Models.Question() { Text = "Placeholder", Order = max });
+
+            db.SaveChanges();
+
+            return RedirectToAction("Index", "Section", new { id = id });
         }
 
         public ActionResult MoveUp(int id)
         {
             var model = db.Sections.FirstOrDefault(x => x.Id == id);
 
-            NormalizeSectionOrder(model.SurveyId);
+            DBHelper.NormalizeSectionOrder(model.SurveyId, db);
             Move(model.Id, false);
-
-            //var survey = db.Surveys.FirstOrDefault(x => x.Id == model.SurveyId);
-            //return View("../Survey/View", survey);
 
             return RedirectToAction("View", "Survey", new { id = model.SurveyId } );
         }
@@ -69,11 +71,8 @@ namespace mvcPlayground.Controllers
         {
             var model = db.Sections.FirstOrDefault(x => x.Id == id);
 
-            NormalizeSectionOrder(model.SurveyId);
+            DBHelper.NormalizeSectionOrder(model.SurveyId, db);
             model = Move(model.Id, true);
-
-            //var survey = db.Surveys.FirstOrDefault(x => x.Id == model.SurveyId);
-            //return View("../Survey/View", survey);
 
             return RedirectToAction("View", "Survey", new { id = model.SurveyId });
         }
@@ -103,47 +102,39 @@ namespace mvcPlayground.Controllers
             return model;
         }
 
-        public void NormalizeSectionOrder(int surveyId)
-        {
-            var sections = db.Sections.Where(x => x.SurveyId == surveyId).OrderBy(x => x.Order).ToList();
-            LinkedList<Section> list2 = new LinkedList<Section>();
-
-            list2.AddFirst(sections[0]);
-            for (var i = 1; i < sections.Count(); i++)
-                list2.AddLast(sections[i]);
-
-            var counter = 0;
-            foreach (var v in list2)
-                v.Order = counter++;
-
-            db.SaveChanges();
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Save(Section model)
+        public ActionResult Save(Section section)
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    if (model.Id > 0)
+                    if (section.Id > 0)
                     {
-                        var sectionToUpdate = db.Sections.Find(model.Id);
-                        sectionToUpdate.Name = model.Name;
+                        var sectionToUpdate = db.Sections.Find(section.Id);
+                        sectionToUpdate.Name = section.Name;
                     }
                     else
-                        db.Sections.Add(model);
+                        db.Sections.Add(section);
 
                     db.SaveChanges();
-                    return RedirectToAction("Index");
+                    return RedirectToAction("View", "Survey", new { id = section.SurveyId });
                 }
             }
             catch (RetryLimitExceededException dex)
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
-            return View("Edit", model);
+            return View("Edit", section);
+        }
+
+        public ActionResult Delete(int? id)
+        {
+            Section model = db.Sections.Find(id);
+            db.Sections.Remove(model);
+            db.SaveChanges();
+            return RedirectToAction("View", "Survey", new { id = model.SurveyId });
         }
     }
 }

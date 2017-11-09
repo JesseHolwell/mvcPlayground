@@ -1,27 +1,35 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "Sections";
 }
 
 @model mvcPlayground.Models.Section
 
 
-@*<h3>@ViewBag.Title</h3>*@
-<div class="row">
-
-    @using (Html.BeginForm())
-    {
-        <div class="col-md-12">
-            <div class="form-group">
+@using (Html.BeginForm())
+{
+    <div class="col-md-12">
+        @*<div class="form-group">
                 @Html.LabelFor(model => model.Name)
                 @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
                 @Html.ValidationMessageFor(model => model.Name)
-            </div>
+            </div>*@
+        <div class="row form-group">
+            <div class="col-sm-12 form-group">
+                @Html.LabelFor(model => model.Name)
+                @Html.DisplayFor(model => model.Name)
 
-            @foreach (var Question in Model.Questions.OrderBy(x => x.Order))
-            {
-                @Html.Partial("Question", Question)
-            }
+                @Html.ActionLink("Edit", "Edit", "Section", new { id = Model.Id }, null)
+            </div>
         </div>
-    }
-</div>
+
+        <div class="form-group">
+            @*<input type="button" class="btn btn-primary" value="+" />*@
+            @Html.ActionLink("+", "AddQuestion", "Section", new { id = Model.Id }, new { @class = "btn btn-default" })
+        </div>
+
+        @foreach (var Question in Model.Questions.OrderBy(x => x.Order))
+        {
+            @Html.Partial("Question", Question)
+        }
+    </div>
+}

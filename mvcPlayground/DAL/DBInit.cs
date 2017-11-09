@@ -7,7 +7,7 @@ using System.Web;
 namespace mvcPlayground.DAL
 {
     //public class DBInit : System.Data.Entity.DropCreateDatabaseIfModelChanges<SurveyDBContext>
-    public class DBInit : System.Data.Entity.DropCreateDatabaseIfModelChanges<SurveyDBContext>
+    public class DBInit : System.Data.Entity.DropCreateDatabaseAlways<SurveyDBContext>
     {
         protected override void Seed(SurveyDBContext context)
         {
