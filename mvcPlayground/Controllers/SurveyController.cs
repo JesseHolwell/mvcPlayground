@@ -24,8 +24,6 @@ namespace mvcPlayground.Controllers
         // GET: Survey/View/5
         public ActionResult View(int? id)
         {
-            //irrelephant
-
             Survey model;
 
             if (id != null && id > 0)
@@ -39,35 +37,50 @@ namespace mvcPlayground.Controllers
             return View(model);
         }
 
-        [HttpPost, ActionName("View")]
+        // GET: Survey/Edit/5
+        public ActionResult Edit(int Id)
+        {
+            var model = db.Surveys.Find(Id);
+            return View("Edit", model);
+        }
+
+        public ActionResult AddSection(int id)
+        {
+            Survey model = db.Surveys.FirstOrDefault(x => x.Id == id);
+            var max = model.Sections.Max(x => x.Order) + 1;
+
+            model.Sections.Add(new Models.Section() { Order = max });
+
+            return View("View", model);
+        }
+
+        [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Save(Survey survey)
         {
-            //TODO: Save logic
-
             try
             {
-                if (ModelState.IsValid)
-                {
-                    if (survey.Id > 0)
-                    {
-                        var surveyToUpdate = db.Surveys.Find(survey.Id);
-                        surveyToUpdate.Name = survey.Name;
-                    }
-                    else
-                        db.Surveys.Add(survey);
+                TryUpdateModel(survey);
+                //if (ModelState.IsValid)
+                //{
+                //    if (survey.Id > 0)
+                //    {
+                //        var surveyToUpdate = db.Surveys.Find(survey.Id);
+                //        surveyToUpdate.Name = survey.Name;
+                //    }
+                //    else
+                //        db.Surveys.Add(survey);
 
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+                //    db.SaveChanges();
+                //}
+                return RedirectToAction("Index");
             }
             catch (RetryLimitExceededException dex)
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
             }
-            return View(survey);
-
-            //return View();
+            return View("Edit", survey);
         }
     }
 }
+

@@ -1,0 +1,24 @@
+﻿
+@{
+    ViewBag.Title = "Section Edit";
+}
+
+@model mvcPlayground.Models.Survey
+
+@using (Html.BeginForm("Save", "Survey"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="row form-group">
+        <div class="col-md-12">
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Name)
+        </div>
+    </div>
+    <div class="row form-group">
+        <div class="col-md-12">
+            <input type="submit" value="Save" class="btn btn-primary" />
+            @Html.ActionLink("Back", "View", "Survey", new { Id = Model.Id }, new { @class = "btn btn-default" })
+        </div>
+    </div>
+}

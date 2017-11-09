@@ -7,7 +7,7 @@ using System.Web;
 namespace mvcPlayground.DAL
 {
     //public class DBInit : System.Data.Entity.DropCreateDatabaseIfModelChanges<SurveyDBContext>
-    public class DBInit : System.Data.Entity.DropCreateDatabaseAlways<SurveyDBContext>
+    public class DBInit : System.Data.Entity.DropCreateDatabaseIfModelChanges<SurveyDBContext>
     {
         protected override void Seed(SurveyDBContext context)
         {
@@ -93,46 +93,6 @@ namespace mvcPlayground.DAL
 
             context.SaveChanges();
 
-        }
-    }
-
-    public static class SurveyFactory
-    {
-        public static Survey Generate()
-        {
-            Survey model = new Survey()
-            {
-                Id = 1,
-                Name = "Test Survey",
-                Sections = new List<Section>()
-                    {
-                        new Section()
-                        {
-                            Id = 1,
-                            Name = "Text",
-                            Questions = new List<Question>()
-                            {
-                                new Question()
-                                {
-                                    Id = 1,
-                                    Text = "Test question number 1",
-                                    Type = QuestionType.Single,
-                                    Answers = new List<Answer>
-                                    {
-                                        new Answer()
-                                        {
-                                            Id = 1,
-                                            Text = "Test answer",
-                                            Exclusive = false,
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-            };
-
-            return model;
         }
     }
 }

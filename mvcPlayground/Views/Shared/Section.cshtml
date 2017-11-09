@@ -16,9 +16,12 @@
                 @Html.ValidationMessageFor(model => model.Name)
             </div>
 
-            @foreach (var Question in Model.Questions.OrderBy(x => x.Order))
+            @if (Model.Questions != null)
             {
-                @Html.Partial("Question", Question)
+                foreach (var Question in Model.Questions.OrderBy(x => x.Order))
+                {
+                    @Html.Partial("Question", Question)
+                }
             }
         </div>
     </div>
