@@ -5,31 +5,58 @@
 @model mvcPlayground.Models.Section
 
 
-@using (Html.BeginForm())
-{
-    <div class="col-md-12">
-        @*<div class="form-group">
-                @Html.LabelFor(model => model.Name)
-                @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
-                @Html.ValidationMessageFor(model => model.Name)
-            </div>*@
-        <div class="row form-group">
-            <div class="col-sm-12 form-group">
+<div class="row">
+    @using (Html.BeginForm())
+    {
+        <div class="col-sm-6 col-sm-offset-3">
+            <div class="form-group">
                 @Html.LabelFor(model => model.Name)
                 @Html.DisplayFor(model => model.Name)
 
                 @Html.ActionLink("Edit", "Edit", "Section", new { id = Model.Id }, null)
             </div>
+
+            <div class="form-group">
+                <ul>
+                    @if (Model.Questions != null)
+                {
+                    foreach (var Question in Model.Questions.OrderBy(x => x.Order))
+                    {
+                            <li>
+
+                                <a type="button" class="btn btn-info form-control" href="@Url.Action("Index", "Question", new { id = Question.Id })">
+                                    @Question.Text
+                                </a>
+                                <span>
+                                    @(Question.Order + 1)
+                                    @if (Question.Order > 0)
+                                    {
+                                        @Html.ActionLink("[^]", "MoveUp", "Question", new { id = Question.Id }, null)
+                                    }
+                                    @if (Question.Order + 1 < Model.Questions.Count())
+                                    {
+                                        @Html.ActionLink("[v]", "MoveDown", "Question", new { id = Question.Id }, null)
+                                    }
+                                </span>
+                                <span class="text-right">
+                                    @Html.ActionLink("[x]", "Delete", "Section", new { id = Question.Id }, null)
+                                </span>
+                            </li>
+                        }
+                    }
+                </ul>
+            </div>
+
+            <div class="form-group">
+                @Html.ActionLink("+", "AddQuestion", "Section", new { id = Model.Id }, new { @class = "btn btn-default" })
+            </div>
         </div>
 
-        <div class="form-group">
-            @*<input type="button" class="btn btn-primary" value="+" />*@
-            @Html.ActionLink("+", "AddQuestion", "Section", new { id = Model.Id }, new { @class = "btn btn-default" })
-        </div>
-
-        @foreach (var Question in Model.Questions.OrderBy(x => x.Order))
-        {
-            @Html.Partial("Question", Question)
-        }
+    }
+</div>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3 form-group">
+        @Html.ActionLink("Delete", "Delete", "Section", new { id = Model.Id }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Back", "View", "Survey", new { id = Model.SurveyId }, new { @class = "btn btn-default" })
     </div>
-}
+</div>

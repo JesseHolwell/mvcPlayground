@@ -9,7 +9,6 @@
 {
     @Html.AntiForgeryToken()
     @Html.HiddenFor(model => model.Id)
-    @Html.TextBoxFor(model => model.Id, new { @class = "form-control" })
     @Html.HiddenFor(model => model.SurveyId)
 
     <div class="row form-group">
@@ -21,7 +20,7 @@
     <div class="row form-group">
         <div class="col-md-12">
             <input type="submit" value="Save" class="btn btn-primary" />
-            @Html.ActionLink("Back", "View", "Survey", new { id = Model.SurveyId }, new { @class = "btn btn-default" })
+            @Html.ActionLink("Back", "Index", "Section", new { id = Model.Id }, new { @class = "btn btn-default" })
         </div>
     </div>
 }

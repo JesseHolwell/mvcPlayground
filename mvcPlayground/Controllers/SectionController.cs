@@ -15,7 +15,6 @@ namespace mvcPlayground.Controllers
 
         public ActionResult Index(int id)
         {
-            //List<Section> model = db.Sections.Where(x=>x.SurveyId == id).ToList();
             Section model = db.Sections.FirstOrDefault(x => x.Id == id);
 
             return View(model);

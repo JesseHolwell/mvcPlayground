@@ -5,31 +5,33 @@
 
 @model mvcPlayground.Models.Survey
 
-@using (Html.BeginForm("Save", "Survey"))
-{
-    @Html.AntiForgeryToken()
-    @Html.HiddenFor(model => model.Id)
+@Html.AntiForgeryToken()
+@Html.HiddenFor(model => model.Id)
 
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3 form-group">
-            @Html.LabelFor(model => model.Name)
-            @Html.DisplayFor(model => model.Name)
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3 form-group">
+        @Html.LabelFor(model => model.Name)
+        @Html.DisplayFor(model => model.Name)
 
-            @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
-        </div>
-
-        <div class="col-sm-6 col-sm-offset-3">
-            <div class="form-group">
-                @*<ul class="nav nav-pills nav-stacked">*@
-                <ul>
-                    @if (Model.Sections != null)
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id })
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3">
+        <div class="form-group">
+            @*<ul class="nav nav-pills nav-stacked">*@
+            <ul>
+                @if (Model.Sections != null)
+                {
+                    foreach (var Section in Model.Sections.OrderBy(x => x.Order))
                     {
-                        foreach (var Section in Model.Sections.OrderBy(x => x.Order))
-                        {
-                            <li>
-                                <a type="button" class="btn btn-info form-control" href="@Url.Action("Index", "Section", new { id = Section.Id })">
-                                    @Section.Name
-                                </a>
+                        <li>
+
+                            <a type="button" class="btn btn-info form-control" href="@Url.Action("Index", "Section", new { id = Section.Id })">
+                                @Section.Name
+                            </a>
+                            <span>
+                                @(Section.Order + 1)
                                 @if (Section.Order > 0)
                                 {
                                     @Html.ActionLink("[^]", "MoveUp", "Section", new { id = Section.Id }, null)
@@ -38,21 +40,23 @@
                                 {
                                     @Html.ActionLink("[v]", "MoveDown", "Section", new { id = Section.Id }, null)
                                 }
+                            </span>
+                            <span class="text-right">
                                 @Html.ActionLink("[x]", "Delete", "Section", new { id = Section.Id }, null)
-                            </li>
-                        }
+                            </span>
+                        </li>
                     }
-                </ul>
-            </div>
-            <div class="form-group">
-                @Html.ActionLink("+", "AddSection", "Survey", new { id = Model.Id }, new { @class = "btn btn-default" })
-            </div>
+                }
+            </ul>
+        </div>
+        <div class="form-group">
+            @Html.ActionLink("+", "AddSection", "Survey", new { id = Model.Id }, new { @class = "btn btn-default" })
         </div>
     </div>
-    <div class="row">
-        <div class="col-sm-6 col-sm-offset-3 form-group">
-            @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-default" })
-            @Html.ActionLink("Back", "Index", "Survey", null, new { @class = "btn btn-default" })
-        </div>
+</div>
+<div class="row">
+    <div class="col-sm-6 col-sm-offset-3 form-group">
+        @Html.ActionLink("Delete", "Delete", new { id = Model.Id }, new { @class = "btn btn-default" })
+        @Html.ActionLink("Back", "Index", "Survey", null, new { @class = "btn btn-default" })
     </div>
-}
+</div>
